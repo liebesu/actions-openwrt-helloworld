@@ -17,7 +17,7 @@ on:
     branches:
       - master
     paths:
-      - '.config'
+      - 'liebesu.config'
   schedule:
      - cron: 0 21 * * *
   watch:
