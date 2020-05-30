@@ -132,6 +132,31 @@ jobs:
       with:
         name: OpenWrt_firmware
         path: ${{ env.FIRMWARE }}
+    - name: 上载bin目录
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: OpenWrt_bin_liebesu
+        path: openwrt/bin
+
+    - name: 整理档案
+      if: always()
+      run: |
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        echo "::set-env name=FIRMWARE::$(pwd)"
+    - name: 上载固件
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: OpenWrt_firmware_liebesu
+        path: ${{ env.FIRMWARE }}
+
+    - name: 报告电报
+      uses: screendriver/ifttt-action@v1.0.0
+      with:
+       event: github_actions
+       key: p96FfuW3aG5CdY2VXUIIczPoERN5si6-jzhd6T505IQ
 
     - name: Upload firmware to cowtransfer
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
