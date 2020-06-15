@@ -136,7 +136,7 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt_bin_liebesu
+        name: OpenWrt_bin_liebesu-$(date "+%Y%m%d")
         path: openwrt/bin
 
     - name: 整理档案
@@ -149,7 +149,7 @@ jobs:
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt_firmware_liebesu
+        name: OpenWrt_firmware_liebesu-$(date "+%Y%m%d")
         path: ${{ env.FIRMWARE }}
 
     - name: 报告电报
