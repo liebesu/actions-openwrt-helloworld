@@ -123,20 +123,21 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        echo "::set-env name=FIRMWARE::$PWD"
+        #echo "::set-env name=FIRMWARE::$PWD"
+        echo "::set-env name=FILE_NAME::$(date "+%Y%m%d")"
         echo "::set-output name=status::success"
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@master
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware
+        name: OpenWrt_firmware-${{env.FILE_NAME}}
         path: ${{ env.FIRMWARE }}
     - name: 上载bin目录
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt_bin_liebesu-$(date "+%Y%m%d")
+        name: OpenWrt_bin_liebesu
         path: openwrt/bin
 
     - name: 整理档案
@@ -144,12 +145,12 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        echo "::set-env name=FIRMWARE::$(pwd)"
+        echo "::set-env name=FILE_NAME::$T_NAMES-$(date "+%Y%m%d")"
     - name: 上载固件
       uses: actions/upload-artifact@master
       if: always()
       with:
-        name: OpenWrt_firmware_liebesu-$(date "+%Y%m%d")
+        name: OpenWrt_firmware_liebesu-${{env.FILE_NAME}}
         path: ${{ env.FIRMWARE }}
 
     - name: 报告电报
